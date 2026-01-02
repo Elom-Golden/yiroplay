@@ -13,8 +13,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
-  // ✅ locale détecté depuis l'URL (FIABLE)
-  const currentLocale: Locale = pathname?.startsWith("/en") ? "en" : "fr";
+  // 🔒 BasePath GitHub Pages (/yiroplay)
+  const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+  // 🔒 Nettoyage du pathname (/yiroplay/fr -> /fr)
+  const cleanPath = pathname?.startsWith(BASE)
+    ? pathname.slice(BASE.length)
+    : pathname ?? "";
+
+  // 🌍 Détection fiable de la langue
+  const currentLocale: Locale = cleanPath.startsWith("/en") ? "en" : "fr";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -23,6 +31,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // 🌍 Traductions
   const t = useMemo(() => {
     const fr = {
       home: "Accueil",
@@ -43,6 +52,7 @@ export default function Navbar() {
     return currentLocale === "fr" ? fr : en;
   }, [currentLocale]);
 
+  // 🔗 Liens
   const links = useMemo(
     () => [
       { href: `/${currentLocale}`, label: t.home },
@@ -54,16 +64,17 @@ export default function Navbar() {
     [currentLocale, t]
   );
 
+  // ✅ Lien actif (avec basePath)
   const isActive = (href: string) => {
     const clean = (s: string) => s.replace(/\/+$/, "");
-    return clean(pathname) === clean(href);
+    return clean(pathname ?? "") === clean(`${BASE}${href}`);
   };
 
   return (
     <header className="sticky top-0 z-50">
       <nav
         className={[
-          "backdrop-blur-xl border-b border-white/10",
+          "backdrop-blur-xl border-b border-white/10 transition-all",
           scrolled
             ? "bg-black/55 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
             : "bg-black/25",
@@ -71,28 +82,31 @@ export default function Navbar() {
       >
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex h-16 items-center justify-between">
-            {/* Left: logo */}
-            <Link href={`/${currentLocale}`} className="flex items-center gap-3">
+            {/* LEFT — Logo */}
+            <Link
+              href={`${BASE}/${currentLocale}`}
+              className="flex items-center gap-3"
+            >
               <div className="relative h-9 w-9 overflow-hidden rounded-full bg-white/5">
                 <Image
-                  src="/brand/logo.png"
+                  src={`${BASE}/brand/logo.png`}
                   alt="Yiroplay"
                   fill
                   className="object-contain p-2"
                   priority
                 />
               </div>
-              <div className="text-[15px] font-semibold tracking-wide text-white">
+              <span className="text-[15px] font-semibold tracking-wide text-white">
                 Yiroplay
-              </div>
+              </span>
             </Link>
 
-            {/* Center: nav (desktop) */}
+            {/* CENTER — Desktop nav */}
             <div className="hidden md:flex items-center gap-2 rounded-full bg-white/5 p-1">
               {links.map((l) => (
                 <Link
                   key={l.href}
-                  href={l.href}
+                  href={`${BASE}${l.href}`}
                   className={[
                     "rounded-full px-4 py-2 text-sm transition",
                     isActive(l.href)
@@ -105,9 +119,8 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Right: actions */}
+            {/* RIGHT — Actions */}
             <div className="flex items-center gap-2">
-              {/* ✅ on passe le bon locale détecté */}
               <LangSwitch locale={currentLocale} />
 
               <Link
@@ -117,7 +130,6 @@ export default function Navbar() {
                 {t.listen}
               </Link>
 
-              {/* ✅ pareil ici */}
               <MobileMenu locale={currentLocale} />
             </div>
           </div>
