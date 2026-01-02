@@ -1,0 +1,9 @@
+{
+  "nav": { "home": "Home", "artists": "Artists", "pricing": "Pricing", "about": "About", "contact": "Contact" },
+  "hero": {
+    "title": "African sound, streaming without limits.",
+    "subtitle": "Discover artists, new releases, and playlists built for the next generation.",
+    "ctaListen": "Listen now",
+    "ctaDownload": "Download the app"
+  }
+}

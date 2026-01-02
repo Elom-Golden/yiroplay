@@ -1,0 +1,9 @@
+{
+  "nav": { "home": "Accueil", "artists": "Artistes", "pricing": "Offres", "about": "À propos", "contact": "Contact" },
+  "hero": {
+    "title": "Le son africain, en streaming sans limites.",
+    "subtitle": "Découvre des artistes, des nouveautés et des playlists pensées pour la nouvelle génération.",
+    "ctaListen": "Écouter maintenant",
+    "ctaDownload": "Télécharger l’app"
+  }
+}

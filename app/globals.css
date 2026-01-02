@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* =========================
+   Yiroplay design tokens
+   ========================= */
+:root{
+  /* Couleurs charte (tu ajusteras plus tard) */
+  --yiro-bg: #20201E;
+  --yiro-text: #FFFFFF;
+
+  /* Accent (VERT) : une seule source de vérité */
+  --yiro-accent: #3AAA35;
+
+  /* Variantes utiles */
+  --yiro-accent-weak: rgba(58, 170, 53, 0.18);
+  --yiro-accent-glow: rgba(58, 170, 53, 0.28);
+  --yiro-border: rgba(255,255,255,0.10);
+  --yiro-card: rgba(255,255,255,0.06);
+}
+
+/* Base */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { height: 100%; }
+
+body{
+  margin: 0;
+  background: var(--yiro-bg);
+  color: var(--yiro-text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   Helpers (couleur accent)
+   ========================= */
+.yiro-accent { color: var(--yiro-accent); }
+.yiro-bg-accent { background: var(--yiro-accent); }
+.yiro-border { border-color: var(--yiro-border); }
+.yiro-card { background: var(--yiro-card); }
+
+/* Glow cohérent partout */
+.yiro-glow {
+  box-shadow:
+    0 0 0 6px var(--yiro-accent-weak),
+    0 18px 45px rgba(0,0,0,0.45);
+}
+
+.yiro-glow-soft {
+  box-shadow: 0 0 0 6px var(--yiro-accent-weak);
+}
+
+/* Focus ring cohérent */
+.yiro-focus:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 6px var(--yiro-accent-weak);
+}
+
+/* =========================
+   Existing animations (ok)
+   ========================= */
+.perspective { perspective: 1200px; }
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 120ms ease;
+}
+
+.shine {
+  background: radial-gradient(
+    800px 220px at 30% 10%,
+    rgba(255, 255, 255, 0.14),
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+
+.eq { animation: eqMove 1.2s ease-in-out infinite; }
+@keyframes eqMove { 0%, 100% { width: 35%; } 50% { width: 62%; } }
+
+.hero-blob { animation: blob 10s ease-in-out infinite; }
+.hero-blob2 { animation: blob2 12s ease-in-out infinite; }
+.hero-blob3 { animation: blob3 14s ease-in-out infinite; }
+
+@keyframes blob { 0%, 100% { transform: translate(-50%, 0) scale(1); } 50% { transform: translate(-50%, 25px) scale(1.08); } }
+@keyframes blob2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-25px, 20px) scale(1.06); } }
+@keyframes blob3 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -25px) scale(1.07); } }
+
+.float-chip { animation: floatChip 3.2s ease-in-out infinite; }
+@keyframes floatChip { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* Micro interaction boutons */
+.btn-micro{
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+.btn-micro::after{
+  content:"";
+  position:absolute;
+  top:-40%;
+  left:-60%;
+  width:50%;
+  height:200%;
+  transform: rotate(20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  opacity: 0;
+  transition: opacity .25s ease, transform .55s ease;
+}
+.btn-micro:hover::after{
+  opacity: .9;
+  transform: translateX(260%) rotate(20deg);
+}
+
+/* IMPORTANT : ici on remplace le vert hardcodé */
+.btn-ghost:hover{
+  box-shadow: 0 0 0 6px var(--yiro-accent-weak);
+}
+
+:root{
+  --yiro-bg: #20201E;
+  --yiro-green: #3AAA35;
+  --yiro-green-rgb: 58, 170, 53; /* pour les shadows/glow */
+}
