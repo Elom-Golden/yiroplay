@@ -1,17 +1,16 @@
 import type { NextConfig } from "next";
 
-const repoName = "yiroplay";
-
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: `/${repoName}`,
-  assetPrefix: `/${repoName}/`,
-  images: { unoptimized: true },
 
-  // ✅ accessible côté navigateur
-  env: {
-    NEXT_PUBLIC_BASE_PATH: `/${repoName}`,
+  images: {
+    unoptimized: true,
   },
+
+  allowedDevOrigins: [
+    "http://localhost:3000",
+    "http://192.168.1.68:3000",
+  ],
 };
 
 export default nextConfig;
+

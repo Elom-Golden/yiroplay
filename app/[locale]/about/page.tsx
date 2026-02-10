@@ -156,6 +156,9 @@ export default async function About({
         <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:48px_48px]" />
       </div>
 
+      {/* premium noise */}
+        <div className="absolute inset-0 opacity-[0.08] [background-image:url('/noise.jpg')] bg-repeat" />
+
       {/* HERO */}
       <section className="relative mx-auto max-w-6xl px-4 pt-14 md:pt-20">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur">

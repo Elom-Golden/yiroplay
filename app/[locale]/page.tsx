@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import HeroMotion from "@/components/HeroMotion";
 import Reveal from "@/components/Reveal";
 import TopPlaylists from "@/components/TopPlaylists";
@@ -7,7 +5,6 @@ import TopArtists from "@/components/TopArtists";
 import Features from "@/components/Features";
 import PricingPreview from "@/components/PricingPreview";
 import FinalCTA from "@/components/FinalCTA";
-
 
 type Locale = "fr" | "en";
 
@@ -22,13 +19,6 @@ export default async function Home({
   const t =
     locale === "fr"
       ? {
-          badge: "Streaming musical Afrique",
-          h1a: "La musique",
-          h1b: "d’Afrique",
-          h1c: "dans ta poche.",
-          sub: "Yiroplay connecte les fans aux artistes d’Afrique de l’Ouest et Centrale. Découvre, écoute, soutiens — avec une expérience premium, rapide et moderne.",
-          cta1: "Écouter maintenant",
-          cta2: "Voir les offres",
           trust: "Déjà pensé pour une expérience fluide sur mobile & desktop.",
           chips: ["Rapide", "Sans pub (Premium)", "Playlists", "Découvertes"],
           stats: [
@@ -36,51 +26,8 @@ export default async function Home({
             { k: "1K+", v: "artistes (vision)" },
             { k: "20+", v: "pays ciblés" },
           ],
-          section1Title: "Une expérience pensée comme Spotify… mais pour nos sons.",
-          section1Sub:
-            "UI moderne, transitions fluides, performance et SEO. Et surtout : une identité musicale africaine forte.",
-          cards: [
-            {
-              title: "Découverte intelligente",
-              desc: "Suggestions basées sur tes goûts : afrobeat, rap, gospel, amapiano, coupé-décalé, togbe vibes…",
-            },
-            {
-              title: "Artistes mis en avant",
-              desc: "Des pages artistes propres, des visuels nets, et une vitrine pour leur croissance.",
-            },
-            {
-              title: "Qualité & performance",
-              desc: "Chargement rapide, design responsive, et une base solide pour ajouter des fonctionnalités au fil du temps.",
-            },
-          ],
-          section2Title: "Pourquoi Yiroplay ?",
-          section2Points: [
-            {
-              title: "Une plateforme locale, une ambition globale",
-              desc: "On met la lumière sur les talents d’ici avec une expérience digne des standards internationaux.",
-            },
-            {
-              title: "Brand premium",
-              desc: "Couleurs sobres, accent vert, typographie moderne : un rendu propre et captivant.",
-            },
-            {
-              title: "Évolutif",
-              desc: "Site vitrine aujourd’hui, fonctionnalités demain (blog, stats, pages artistes avancées, etc.)",
-            },
-          ],
-          section3Title: "Prêt à écouter ?",
-          section3Sub:
-            "Laisse Yiroplay devenir ta nouvelle habitude musicale. Découvre des sons, soutiens les artistes, kiffe.",
-          footerNote: "© 2025 Yiroplay — Tous droits réservés.",
         }
       : {
-          badge: "African music streaming",
-          h1a: "Africa’s",
-          h1b: "music",
-          h1c: "in your pocket.",
-          sub: "Yiroplay connects fans to West & Central African artists. Discover, listen, support — with a premium, fast, modern experience.",
-          cta1: "Listen now",
-          cta2: "View pricing",
           trust: "Built for a smooth experience on mobile & desktop.",
           chips: ["Fast", "Ad-free (Premium)", "Playlists", "Discovery"],
           stats: [
@@ -88,75 +35,158 @@ export default async function Home({
             { k: "1K+", v: "artists (vision)" },
             { k: "20+", v: "target countries" },
           ],
-          section1Title: "A Spotify-level experience… made for our sound.",
-          section1Sub:
-            "Modern UI, smooth transitions, performance and SEO. And most importantly: a strong African music identity.",
-          cards: [
-            {
-              title: "Smart discovery",
-              desc: "Recommendations based on your taste: afrobeat, rap, gospel, amapiano, coupé-décalé…",
-            },
-            {
-              title: "Artists first",
-              desc: "Clean artist pages, crisp visuals, and a growth-friendly showcase.",
-            },
-            {
-              title: "Quality & performance",
-              desc: "Fast loading, responsive design, and a solid base to add features over time.",
-            },
-          ],
-          section2Title: "Why Yiroplay?",
-          section2Points: [
-            {
-              title: "Local platform, global ambition",
-              desc: "We spotlight local talent with world-class experience standards.",
-            },
-            {
-              title: "Premium brand",
-              desc: "Dark elegance, green accent, modern typography — clean and captivating.",
-            },
-            {
-              title: "Scalable",
-              desc: "Landing today, features tomorrow (blog, stats, advanced artist pages, etc.)",
-            },
-          ],
-          section3Title: "Ready to listen?",
-          section3Sub:
-            "Make Yiroplay your new music habit. Discover sounds, support artists, enjoy.",
-          footerNote: "© 2025 Yiroplay — All rights reserved.",
         };
 
-  return (    
-    <main className="relative overflow-hidden">
-      <HeroMotion locale={locale} />
-  
-        <Reveal delay={0.05}>
-          <TopPlaylists locale={locale} />
-        </Reveal>
+ return (
+  <main className="relative overflow-hidden">
+    <HeroMotion locale={locale} />
 
-        <Reveal delay={0.08}>
-          <TopArtists locale={locale} />
-        </Reveal>
+    {/* TRUST BAR */}
+    <section className="relative">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <p className="text-sm text-white/70">{t.trust}</p>
 
-        <Reveal delay={0.1}>
-          <Features locale={locale} />
-        </Reveal>
+            <div className="flex flex-wrap gap-2">
+              {t.chips.map((c) => (
+                <span
+                  key={c}
+                  className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-white/80"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          </div>
 
-        <Reveal delay={0.12}>
-          <PricingPreview locale={locale} />
-        </Reveal>
-
-        <Reveal delay={0.14}>
-          <FinalCTA locale={locale} />
-        </Reveal>
-
-
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[#3AAA35]/18 blur-[90px]" />
-        <div className="absolute top-[25%] -left-32 h-[420px] w-[420px] rounded-full bg-white/5 blur-[90px]" />
-        <div className="absolute bottom-[-200px] right-[-140px] h-[560px] w-[560px] rounded-full bg-[#3AAA35]/10 blur-[110px]" />
+          <div className="mt-4 grid grid-cols-3 gap-2 md:gap-3">
+            {t.stats.map((s) => (
+              <div
+                key={s.k}
+                className="rounded-xl border border-white/10 bg-black/25 p-3"
+              >
+                <div className="text-lg font-semibold text-white">{s.k}</div>
+                <div className="text-xs text-white/60">{s.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </main>
-  );
+
+      <div className="mx-auto mt-8 h-px max-w-6xl bg-gradient-to-r from-transparent via-white/10 to-transparent px-4" />
+    </section>
+
+    {/* ✅ STACK (plus de py-12/md:py-16) */}
+    <div className="mt-10 space-y-10 md:space-y-12">
+      <section className="relative">
+        <div className="mx-auto max-w-6xl px-4">
+          <Reveal delay={0.05}>
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#3AAA35]" />
+                {locale === "fr" ? "Sélection" : "Selection"}
+              </div>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                {locale === "fr" ? "Playlists du moment" : "Top playlists right now"}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-white/65">
+                {locale === "fr"
+                  ? "Des ambiances soigneusement choisies — pour bosser, rouler, kiffer, prier ou chill."
+                  : "Carefully curated moods — for work, ride, chill, pray, or vibe."}
+              </p>
+            </div>
+
+            <TopPlaylists locale={locale} />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div className="mx-auto max-w-6xl px-4">
+          <Reveal delay={0.08}>
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#3AAA35]" />
+                {locale === "fr" ? "Talents" : "Talents"}
+              </div>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                {locale === "fr" ? "Artistes à suivre" : "Artists to watch"}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-white/65">
+                {locale === "fr"
+                  ? "Une vitrine propre, premium, et pensée pour la croissance."
+                  : "A clean, premium showcase designed for growth."}
+              </p>
+            </div>
+
+            <TopArtists locale={locale} />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div className="mx-auto max-w-6xl px-4">
+          <Reveal delay={0.1}>
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#3AAA35]" />
+                {locale === "fr" ? "Expérience" : "Experience"}
+              </div>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                {locale === "fr" ? "Le confort d’une app premium" : "A premium app feel"}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-white/65">
+                {locale === "fr"
+                  ? "Performance, design, et fluidité — tout est calibré pour le plaisir."
+                  : "Performance, design, and smoothness — tuned for enjoyment."}
+              </p>
+            </div>
+
+            <Features locale={locale} />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div className="mx-auto max-w-6xl px-4">
+          <Reveal delay={0.12}>
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#3AAA35]" />
+                {locale === "fr" ? "Offres" : "Pricing"}
+              </div>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                {locale === "fr" ? "Choisis ton rythme" : "Pick your plan"}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-white/65">
+                {locale === "fr"
+                  ? "Gratuit pour découvrir. Premium pour profiter sans limites."
+                  : "Free to explore. Premium to enjoy without limits."}
+              </p>
+            </div>
+
+            <PricingPreview locale={locale} />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div className="mx-auto max-w-6xl px-4">
+          <Reveal delay={0.14}>
+            <FinalCTA locale={locale} />
+          </Reveal>
+        </div>
+      </section>
+    </div>
+
+    {/* Background glow */}
+    <div className="pointer-events-none absolute inset-0 -z-10">
+      <div className="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-[#3AAA35]/18 blur-[90px]" />
+      <div className="absolute top-[25%] -left-32 h-[420px] w-[420px] rounded-full bg-white/5 blur-[90px]" />
+      <div className="absolute bottom-[-200px] right-[-140px] h-[560px] w-[560px] rounded-full bg-[#3AAA35]/10 blur-[110px]" />
+    </div>
+  </main>
+);
+
 }

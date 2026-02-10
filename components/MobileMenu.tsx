@@ -17,7 +17,6 @@ export default function MobileMenu({ locale }: { locale: Locale }) {
   }, []);
 
   useEffect(() => {
-    // lock scroll
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -70,16 +69,33 @@ export default function MobileMenu({ locale }: { locale: Locale }) {
       {/* Overlay + panel */}
       {open && (
         <div className="fixed inset-0 z-[80] md:hidden">
-          {/* overlay */}
+          {/* overlay (fallback solide + blur si supporté) */}
           <button
             aria-label={t.close}
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-black/60"
+            className="
+              absolute inset-0
+              bg-black/70
+              supports-[backdrop-filter]:bg-black/55
+              supports-[backdrop-filter]:backdrop-blur-[2px]
+            "
           />
 
           {/* panel */}
-          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm border-l border-white/10 bg-[#20201E]/75 backdrop-blur-xl">
-            <div className="flex items-center justify-between p-4">
+          <div
+            className="
+              absolute right-0 top-0 h-full w-[86%] max-w-sm
+              border-l border-white/10
+              bg-[#121212]  /* <- Fallback solide pour tous navigateurs */
+              supports-[backdrop-filter]:bg-[#20201E]/85
+              supports-[backdrop-filter]:backdrop-blur-xl
+              shadow-[-20px_0_80px_rgba(0,0,0,0.65)]
+            "
+          >
+            {/* glow léger premium */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_20%_10%,rgba(var(--yiro-green-rgb),0.14),transparent_60%)]" />
+
+            <div className="relative flex items-center justify-between p-4">
               <div className="text-sm font-semibold text-white/90">Yiroplay</div>
               <button
                 aria-label={t.close}
@@ -90,7 +106,7 @@ export default function MobileMenu({ locale }: { locale: Locale }) {
               </button>
             </div>
 
-            <div className="px-4 pb-4">
+            <div className="relative px-4 pb-4">
               {/* CTA listen */}
               <Link
                 href={`/${locale}/listen`}

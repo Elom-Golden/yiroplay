@@ -12,6 +12,10 @@ export default async function ContactPage({
 
   return (
     <main className="relative overflow-hidden">
+
+{/* premium noise */}
+        <div className="absolute inset-0 opacity-[0.08] [background-image:url('/noise.jpg')] bg-repeat" />
+
       {/* ambient */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[#3AAA35]/12 blur-[100px]" />

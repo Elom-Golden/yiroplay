@@ -1,36 +1,80 @@
 @import "tailwindcss";
 
 /* =========================
-   Yiroplay design tokens
+   Yiroplay Design Tokens
    ========================= */
 :root{
-  /* Couleurs charte (tu ajusteras plus tard) */
+  /* Base */
   --yiro-bg: #20201E;
   --yiro-text: #FFFFFF;
 
-  /* Accent (VERT) : une seule source de vérité */
-  --yiro-accent: #3AAA35;
+  /* Accent (source unique) */
+  --yiro-green: #3AAA35;
+  --yiro-green-rgb: 58, 170, 53;
 
-  /* Variantes utiles */
+  /* Aliases (si tu utilises encore --yiro-accent dans des composants) */
+  --yiro-accent: var(--yiro-green);
   --yiro-accent-weak: rgba(58, 170, 53, 0.18);
   --yiro-accent-glow: rgba(58, 170, 53, 0.28);
+
+  /* Surfaces */
   --yiro-border: rgba(255,255,255,0.10);
   --yiro-card: rgba(255,255,255,0.06);
 }
 
-/* Base */
-html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { height: 100%; }
+/* =========================
+   Base
+   ========================= */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
 
-body{
+body {
   margin: 0;
+  min-height: 100%;
   background: var(--yiro-bg);
   color: var(--yiro-text);
-  font-family: Arial, Helvetica, sans-serif;
+
+  font-family: var(--font-alexandria), ui-sans-serif, system-ui;
+}
+
+
+/* Selection (flagship feel) */
+::selection{
+  background: rgba(var(--yiro-green-rgb), 0.28);
+  color: white;
+}
+
+/* Scrollbar (Edge/Chrome) */
+*::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track{
+  background: rgba(255,255,255,0.03);
+}
+*::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,0);
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,0.18);
+  background-clip: padding-box;
+}
+
+/* Focus ring cohérent */
+:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 6px var(--yiro-accent-weak);
 }
 
 /* =========================
-   Helpers (couleur accent)
+   Helpers
    ========================= */
 .yiro-accent { color: var(--yiro-accent); }
 .yiro-bg-accent { background: var(--yiro-accent); }
@@ -43,25 +87,18 @@ body{
     0 0 0 6px var(--yiro-accent-weak),
     0 18px 45px rgba(0,0,0,0.45);
 }
-
 .yiro-glow-soft {
   box-shadow: 0 0 0 6px var(--yiro-accent-weak);
 }
 
-/* Focus ring cohérent */
-.yiro-focus:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 6px var(--yiro-accent-weak);
-}
-
 /* =========================
-   Existing animations (ok)
+   Motion helpers
    ========================= */
 .perspective { perspective: 1200px; }
 
 .tilt-card {
   transform-style: preserve-3d;
-  transition: transform 120ms ease;
+  transition: transform 140ms ease;
 }
 
 .shine {
@@ -74,6 +111,7 @@ body{
   opacity: 0.9;
 }
 
+/* Existing animations */
 .eq { animation: eqMove 1.2s ease-in-out infinite; }
 @keyframes eqMove { 0%, 100% { width: 35%; } 50% { width: 62%; } }
 
@@ -88,36 +126,108 @@ body{
 .float-chip { animation: floatChip 3.2s ease-in-out infinite; }
 @keyframes floatChip { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-/* Micro interaction boutons */
+/* =========================
+   Buttons (micro premium)
+   ========================= */
 .btn-micro{
   position: relative;
   overflow: hidden;
   transform: translateZ(0);
 }
+
 .btn-micro::after{
   content:"";
   position:absolute;
-  top:-40%;
-  left:-60%;
-  width:50%;
-  height:200%;
-  transform: rotate(20deg);
+  top:-45%;
+  left:-65%;
+  width:55%;
+  height:220%;
+  transform: rotate(18deg);
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
   opacity: 0;
-  transition: opacity .25s ease, transform .55s ease;
-}
-.btn-micro:hover::after{
-  opacity: .9;
-  transform: translateX(260%) rotate(20deg);
+  transition: opacity .25s ease, transform .65s ease;
 }
 
-/* IMPORTANT : ici on remplace le vert hardcodé */
+.btn-micro:hover::after{
+  opacity: .95;
+  transform: translateX(280%) rotate(18deg);
+}
+
+/* Ghost hover ring */
 .btn-ghost:hover{
   box-shadow: 0 0 0 6px var(--yiro-accent-weak);
 }
 
-:root{
-  --yiro-bg: #20201E;
-  --yiro-green: #3AAA35;
-  --yiro-green-rgb: 58, 170, 53; /* pour les shadows/glow */
+.font-display {
+  font-family: var(--font-epilogue), ui-sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-alexandria), ui-sans-serif;
+}
+
+
+/* =========================
+   Shine line (Artist divider)
+   ========================= */
+.yiro-shine-line {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.yiro-shine-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--yiro-green-rgb), 0.12),
+    rgba(255, 255, 255, 0.22),
+    rgba(var(--yiro-green-rgb), 0.16),
+    transparent
+  );
+}
+
+.yiro-shine-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -30%;
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    rgba(var(--yiro-green-rgb), 0.35),
+    transparent
+  );
+  filter: blur(0.2px);
+  opacity: 0.9;
+  animation: yiroShineSweep 3.6s ease-in-out infinite;
+}
+
+@keyframes yiroShine {
+  0% { transform: translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(420%); opacity: 0; }
+}
+
+
+/* =========================
+   Accessibility: reduced motion
+   ========================= */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

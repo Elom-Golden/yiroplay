@@ -1,12 +1,11 @@
 "use client";
 
+import React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
-type Props = {
-  locale: "fr" | "en";
-};
+type Props = { locale: "fr" | "en" };
 
 const COPY = {
   fr: {
@@ -59,23 +58,47 @@ const COPY = {
   },
 };
 
+function Wave() {
+  return (
+    <div className="flex h-8 items-end gap-1">
+      {Array.from({ length: 18 }).map((_, i) => (
+        <motion.span
+          key={i}
+          className="w-1 rounded-full bg-white/55"
+          initial={{ height: 6 }}
+          animate={{ height: [6, 18, 10, 22, 8, 16] }}
+          transition={{
+            duration: 2.2,
+            repeat: Infinity,
+            delay: i * 0.04,
+            ease: "easeInOut",
+          }}
+          style={{
+            opacity: 0.35 + (i % 5) * 0.08,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function HeroMotion({ locale }: Props) {
   const t = COPY[locale];
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 120, damping: 18, mass: 0.2 });
-  const sy = useSpring(my, { stiffness: 120, damping: 18, mass: 0.2 });
+  const sx = useSpring(mx, { stiffness: 120, damping: 18, mass: 0.22 });
+  const sy = useSpring(my, { stiffness: 120, damping: 18, mass: 0.22 });
 
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-10, 10]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], [8, -8]);
-  const translateX = useTransform(sx, [-0.5, 0.5], [-14, 14]);
-  const translateY = useTransform(sy, [-0.5, 0.5], [-10, 10]);
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-11, 11]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [9, -9]);
+  const translateX = useTransform(sx, [-0.5, 0.5], [-16, 16]);
+  const translateY = useTransform(sy, [-0.5, 0.5], [-12, 12]);
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
     mx.set(x);
     my.set(y);
   }
@@ -85,19 +108,27 @@ export default function HeroMotion({ locale }: Props) {
   }
 
   return (
-    <section className="relative overflow-hidden">
-      {/* Ambient background */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[color:var(--yiro-green)]/10 blur-[90px]" />
-        <div className="absolute -bottom-56 right-[-180px] h-[520px] w-[520px] rounded-full bg-[color:var(--yiro-green)]/10 blur-[110px]" />
+    <section className="relative isolate overflow-hidden">
+      {/* Cinematic background */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        {/* vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_700px_at_50%_0%,rgba(255,255,255,0.06),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(900px_520px_at_15%_10%,rgba(var(--yiro-green-rgb),0.18),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(900px_520px_at_85%_30%,rgba(var(--yiro-green-rgb),0.12),transparent_55%)]" />
 
-        <div className="absolute inset-0 bg-[radial-gradient(60%_40%_at_30%_10%,rgba(var(--yiro-green-rgb),0.14),transparent_55%),radial-gradient(50%_40%_at_80%_30%,rgba(var(--yiro-green-rgb),0.10),transparent_55%)]" />
+        {/* mesh blur blobs */}
+        <div className="absolute -top-48 left-1/2 h-[520px] w-[860px] -translate-x-1/2 rounded-full bg-[color:var(--yiro-green)]/10 blur-[110px]" />
+        <div className="absolute -bottom-56 right-[-200px] h-[560px] w-[560px] rounded-full bg-[color:var(--yiro-green)]/10 blur-[130px]" />
 
-        <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:48px_48px]" />
+        {/* premium noise */}
+        <div className="absolute inset-0 opacity-[0.08] [background-image:url('/noise.jpg')] bg-repeat" />
+
+        {/* subtle grid (less aggressive) */}
+        <div className="absolute inset-0 opacity-[0.035] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:72px_72px]" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-6 pt-10 pb-6 md:pt-16 md:pb-12">
-        <div className="grid items-center gap-10 md:grid-cols-2">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-8 pb-4 md:pt-12 md:pb-8">
+        <div className="grid items-center gap-12 md:grid-cols-2">
           {/* LEFT */}
           <div>
             <motion.div
@@ -137,12 +168,14 @@ export default function HeroMotion({ locale }: Props) {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.18 }}
-              className="mt-6 flex flex-wrap items-center gap-3"
+              className="mt-7 flex flex-wrap items-center gap-3"
             >
               <Link
                 href={`/${locale}`}
-                className="group inline-flex items-center justify-center rounded-full bg-[color:var(--yiro-green)] px-5 py-3 text-sm font-semibold text-black shadow-[0_12px_40px_rgba(var(--yiro-green-rgb),0.18)] transition hover:translate-y-[-1px] hover:brightness-110"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-[color:var(--yiro-green)] px-5 py-3 text-sm font-semibold text-black shadow-[0_18px_60px_rgba(var(--yiro-green-rgb),0.20)] transition hover:translate-y-[-1px] hover:brightness-110 active:translate-y-[0px]"
               >
+                {/* shine */}
+                <span className="pointer-events-none absolute -left-24 top-0 h-full w-16 rotate-12 bg-white/45 blur-md opacity-0 transition-all duration-500 group-hover:translate-x-[260px] group-hover:opacity-100" />
                 {t.ctaPrimary}
                 <span className="ml-2 inline-block transition group-hover:translate-x-0.5">
                   →
@@ -205,15 +238,18 @@ export default function HeroMotion({ locale }: Props) {
               }}
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.08 }}
+              transition={{ duration: 0.75, delay: 0.08 }}
               className="relative mx-auto max-w-lg"
             >
-              <div className="pointer-events-none absolute -inset-6 rounded-[32px] bg-[color:var(--yiro-green)]/10 blur-2xl" />
+              {/* halo */}
+              <div className="pointer-events-none absolute -inset-8 rounded-[36px] bg-[color:var(--yiro-green)]/10 blur-3xl" />
+              <div className="pointer-events-none absolute -inset-2 rounded-[32px] bg-white/5 blur-xl" />
 
-              <div className="rounded-[28px] border border-white/10 bg-[#121212]/70 p-5 shadow-[0_30px_90px_rgba(0,0,0,0.55)] backdrop-blur">
+              {/* card */}
+              <div className="rounded-[28px] border border-white/10 bg-[#121212]/70 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.60)] backdrop-blur">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/5">
+                    <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-xl bg-white/5 ring-1 ring-white/10">
                       <Image
                         src="/brand/yiroplay-icon.png"
                         alt="Yiroplay"
@@ -221,6 +257,7 @@ export default function HeroMotion({ locale }: Props) {
                         height={22}
                         className="opacity-90"
                       />
+                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_30%_20%,rgba(var(--yiro-green-rgb),0.22),transparent_60%)] opacity-70" />
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-white">
@@ -235,55 +272,88 @@ export default function HeroMotion({ locale }: Props) {
                   </span>
                 </div>
 
+                {/* now playing block */}
+                <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      {/* cover */}
+                      <div className="relative h-12 w-12 overflow-hidden rounded-xl ring-1 ring-white/10">
+                        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_30%_20%,rgba(var(--yiro-green-rgb),0.35),transparent_65%)]" />
+                        <div className="absolute inset-0 bg-white/5" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-white/90">
+                          {t.tracks[0].title}
+                        </div>
+                        <div className="text-xs text-white/60">
+                          {t.tracks[0].sub}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* play */}
+                    <motion.div
+                      animate={{ scale: [1, 1.04, 1] }}
+                      transition={{ duration: 2.6, repeat: Infinity }}
+                      className="grid h-10 w-10 place-items-center rounded-full bg-[color:var(--yiro-green)]/95 shadow-[0_0_32px_rgba(var(--yiro-green-rgb),0.30)]"
+                      aria-hidden
+                    >
+                      <span className="ml-[1px] text-[12px] font-black text-black">
+                        ▶
+                      </span>
+                    </motion.div>
+                  </div>
+
+                  {/* waveform */}
+                  <div className="mt-3">
+                    <Wave />
+                  </div>
+
+                  {/* progress */}
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between text-[11px] text-white/55">
+                      <span>0:42</span>
+                      <span>3:12</span>
+                    </div>
+                    <div className="mt-2 h-2 w-full rounded-full bg-black/40">
+                      <motion.div
+                        initial={{ width: "38%" }}
+                        animate={{ width: ["38%", "62%", "48%"] }}
+                        transition={{ duration: 6, repeat: Infinity }}
+                        className="h-2 rounded-full bg-[color:var(--yiro-green)] shadow-[0_0_18px_rgba(var(--yiro-green-rgb),0.30)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* queue */}
                 <div className="mt-4 space-y-3">
-                  {t.tracks.map((tr) => (
+                  {t.tracks.slice(1).map((tr) => (
                     <div
                       key={tr.title}
                       className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4"
                     >
                       <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100 bg-[radial-gradient(40%_60%_at_90%_10%,rgba(var(--yiro-green-rgb),0.18),transparent_60%)]" />
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 rounded-xl bg-[color:var(--yiro-green)]/20 ring-1 ring-white/10" />
-                          <div>
-                            <div className="text-sm font-semibold text-white/90">
-                              {tr.title}
-                            </div>
-                            <div className="text-xs text-white/60">{tr.sub}</div>
+                      <div className="flex items-center gap-3">
+                        <div className="h-12 w-12 rounded-xl bg-[color:var(--yiro-green)]/18 ring-1 ring-white/10" />
+                        <div>
+                          <div className="text-sm font-semibold text-white/90">
+                            {tr.title}
                           </div>
+                          <div className="text-xs text-white/60">{tr.sub}</div>
                         </div>
-
-                        <motion.div
-                          animate={{ scale: [1, 1.03, 1] }}
-                          transition={{ duration: 2.8, repeat: Infinity }}
-                          className="h-10 w-10 rounded-full bg-[color:var(--yiro-green)]/95 shadow-[0_0_28px_rgba(var(--yiro-green-rgb),0.30)]"
-                        />
                       </div>
                     </div>
                   ))}
                 </div>
-
-                <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <div className="flex items-center justify-between text-xs text-white/60">
-                    <span>0:42</span>
-                    <span>3:12</span>
-                  </div>
-                  <div className="mt-2 h-2 w-full rounded-full bg-black/40">
-                    <motion.div
-                      initial={{ width: "38%" }}
-                      animate={{ width: ["38%", "62%", "48%"] }}
-                      transition={{ duration: 6, repeat: Infinity }}
-                      className="h-2 rounded-full bg-[color:var(--yiro-green)] shadow-[0_0_18px_rgba(var(--yiro-green-rgb),0.30)]"
-                    />
-                  </div>
-                </div>
               </div>
             </motion.div>
 
+            {/* badges */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.55 }}
               className="mt-5 grid grid-cols-3 gap-3"
             >
               {[{ k: locale === "fr" ? "Rapide" : "Fast" }, { k: "Premium" }, { k: "Local" }].map(
